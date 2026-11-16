@@ -56,6 +56,11 @@ flowchart LR
 
 Each conversation is traced as a span tree: workflow → LLM calls → tool calls, with latency, token usage and cost per step.
 
+<p align="center">
+  <img src="docs/images/experiment-trace.png" alt="Datadog trace of an agent conversation" width="800">
+  <br><em>Datadog trace for "What is the status of order #ORD-101?": the model selects the tool, the order lookup runs, and the model writes the answer.</em>
+</p>
+
 ---
 
 ## Evaluation metrics
@@ -70,6 +75,11 @@ Each conversation is traced as a span tree: workflow → LLM calls → tool call
 
 Online monitoring uses only the metrics that need no expected answer, so they can score any live conversation.
 
+<p align="center">
+  <img src="docs/images/production-trace.png" alt="Datadog production trace with attached evaluations" width="800">
+  <br><em>Online monitoring: a customer attempts a $900 refund override. The agent declines, and three evaluations are attached to the trace.</em>
+</p>
+
 ---
 
 ## Results (current baseline)
@@ -83,6 +93,11 @@ Online monitoring uses only the metrics that need no expected answer, so they ca
 | Tool trajectory | 89% |
 
 The agent reached the correct outcome in **9 of 9** scenarios and declined **3 of 3** adversarial prompts, including prompt injection and policy override.
+
+<p align="center">
+  <img src="docs/images/experiment-comparison.png" alt="Datadog experiment compared with its baseline" width="900">
+  <br><em>Datadog Experiments: a run (A) compared with its baseline (B), metric by metric.</em>
+</p>
 
 ---
 
@@ -134,6 +149,7 @@ A full offline run takes a few minutes, mostly waiting on model API calls.
 │   └── support_agent.py      # Tool-using Gemini agent, instrumented with Datadog decorators
 ├── evaluators/
 │   └── judge.py              # LLM-as-a-judge and deterministic evaluators
+├── docs/images/           # Datadog screenshots
 ├── data/
 │   └── golden_dataset.jsonl  # Golden test cases
 ├── generate_dataset.py       # Synthetic dataset generation with structured output
